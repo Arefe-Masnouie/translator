@@ -1,0 +1,30 @@
+import speech_recognition as sr
+#coverting speech to text
+
+print("Listening to your voice...")
+record = sr.Recognizer() 
+with sr.Microphone() as source:
+    record.pause_threshold =1 #stop afer 1 second of not hearin
+    audio = record.listen(source) #put everything you hear in this
+
+print("Processing your voice...")
+text = record.recognize_google(audio, language='fa-IR')
+print(text)
+
+
+
+from deep_translator import GoogleTranslator
+#translating the text
+en = GoogleTranslator("auto", target="en").translate(text) 
+#auto means the translator shall detect the language and target is the language we want to be translated into
+
+print("English: ", en)
+
+
+
+import pyttsx3 as tts
+#text to speech
+engine = tts.init()
+engine.setProperty('rate', 125)
+engine.say(en)
+engine.runAndWait()
